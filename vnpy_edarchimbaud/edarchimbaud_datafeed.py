@@ -13,8 +13,8 @@ from vnpy.trader.datafeed import BaseDatafeed
 
 
 INTERVAL_VT2EA: Dict[Interval, str] = {
-    Interval.MINUTE: "1mn",
-    Interval.DAILY: "daily",
+    Interval.MINUTE: "1m",
+    Interval.DAILY: "1d",
 }
 
 INTERVAL_ADJUSTMENT_MAP: Dict[Interval, timedelta] = {
