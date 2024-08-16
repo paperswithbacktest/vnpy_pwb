@@ -12,9 +12,8 @@ from vnpy.trader.utility import round_to, ZoneInfo
 from vnpy.trader.datafeed import BaseDatafeed
 
 
-INTERVAL_VT2EA: Dict[Interval, str] = {
-    Interval.MINUTE: "1m",
-    Interval.DAILY: "1d",
+INTERVAL_VT2PWB: Dict[Interval, str] = {
+    Interval.DAILY: "Daily",
 }
 
 INTERVAL_ADJUSTMENT_MAP: Dict[Interval, timedelta] = {
@@ -29,8 +28,8 @@ EXCHANGES: Set[Exchange] = {
 NYC_TZ = ZoneInfo("America/New_York")
 
 
-class EdarchimbaudDatafeed(BaseDatafeed):
-    """EdArchimbaud data service interface"""
+class PWBDatafeed(BaseDatafeed):
+    """Papers With Backtest data service interface"""
 
     def __init__(self):
         """"""
@@ -46,9 +45,9 @@ class EdarchimbaudDatafeed(BaseDatafeed):
             return True
 
         try:
-            dataset = load_dataset("edarchimbaud/perimeter-stocks")
+            dataset = load_dataset("paperswithbacktest/Stocks-Daily-Price")
             df: DataFrame = dataset["train"].to_pandas()
-            self.symbols = df["symbol"].values
+            self.symbols = df["symbol"].unique().tolist()
         except Exception as ex:
             output(f"An unknown exception occurred: {ex}")
             return False
@@ -71,17 +70,17 @@ class EdarchimbaudDatafeed(BaseDatafeed):
         start: datetime = req.start
         end: datetime = req.end
 
-        ea_symbol: str = symbol
+        pwb_symbol: str = symbol
         if symbol not in self.symbols:
             output(
-                f"EdArchimbaud failed to query bar data: unsupported contract code {req.vt_symbol}"
+                f"Papers With Backtest failed to query bar data: unsupported contract code {req.vt_symbol}"
             )
             return []
 
-        ea_interval: str = INTERVAL_VT2EA.get(interval)
-        if not ea_interval:
+        pwb_interval: str = INTERVAL_VT2PWB.get(interval)
+        if not pwb_interval:
             output(
-                f"EdArchimbaud failed to query bar data: unsupported time period {req.interval.value}"
+                f"Papers With Backtest failed to query bar data: unsupported time period {req.interval.value}"
             )
             return []
 
@@ -92,11 +91,11 @@ class EdarchimbaudDatafeed(BaseDatafeed):
         # In order to check the nightly data
         end += timedelta(1)
 
-        dataset = load_dataset(f"edarchimbaud/timeseries-{ea_interval}-stocks")
+        dataset = load_dataset(f"paperswithbacktest/Stocks-{pwb_interval}-Price")
         df: DataFrame = dataset["train"].to_pandas()
         df["date"] = to_datetime(df["date"])
         index: ndarray = (
-            (df.symbol == ea_symbol)
+            (df.symbol == pwb_symbol)
             & (df.date >= datetime64(start))
             & (df.date <= datetime64(end))
         )
@@ -125,7 +124,7 @@ class EdarchimbaudDatafeed(BaseDatafeed):
                     volume=row.volume,
                     turnover=row.volume * row.adj_close,
                     open_interest=0,
-                    gateway_name="EA",
+                    gateway_name="PWB",
                 )
 
                 data.append(bar)

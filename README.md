@@ -1,4 +1,4 @@
-# EdArchimbaud Data Service Interface for the VeighNa Framework
+# Papers With Backtest Data Service Interface for the VeighNa Framework
 
 <p align="center">
   <img src ="https://vnpy.oss-cn-shanghai.aliyuncs.com/vnpy-logo.png"/>
@@ -21,12 +21,12 @@ It supports the following US financial market bar data:
 
 ## Installation
 
-The installation environment is recommended to be based on [[**VeighNa Studio**](https://edarchimbaud.com/veighna-website)] above version 3.6.0.
+The installation environment is recommended to be based on [[**VeighNa Studio**](https://paperswithbacktest.com/)] above version 3.6.0.
 
 Use pip command directly:
 
 ```bash
-pip install vnpy_edarchimbaud
+pip install vnpy_pwb
 ```
 
 Or download the source code, unzip it and run it in cmd:
@@ -41,6 +41,6 @@ You need to fill in the following field information in the global configuration:
 
 | Name              | Meaning  | Required | Examples     |
 |-------------------|----------|----------|--------------|
-| datafeed.name     | Name     | Yes      | edarchimbaud |
+| datafeed.name     | Name     | Yes      | pwb          |
 | datafeed.username | Username | No       |              |
 | datafeed.password | Password | No       |              |

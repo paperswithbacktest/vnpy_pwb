@@ -23,10 +23,10 @@
 
 import importlib_metadata
 
-from .edarchimbaud_datafeed import EdarchimbaudDatafeed as Datafeed
+from .pwb_datafeed import PWBDatafeed as Datafeed
 
 
 try:
-    __version__ = importlib_metadata.version("vnpy_edarchimbaud")
+    __version__ = importlib_metadata.version("vnpy_pwb")
 except importlib_metadata.PackageNotFoundError:
     __version__ = "dev"
