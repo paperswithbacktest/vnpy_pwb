@@ -21,7 +21,7 @@ It supports the following US financial market bar data:
 
 ## Installation
 
-The installation environment is recommended to be based on [[**VeighNa Studio**](https://paperswithbacktest.com/)] above version 3.6.0.
+The installation environment is recommended to be based on [[**VeighNa Studio**](https://github.com/paperswithbacktest/vnpy)] above version 3.6.0.
 
 Use pip command directly:
 
